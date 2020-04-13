@@ -13,6 +13,17 @@ basic example :
 ```re
 module S = Silica.HTML;
 
+let main = 
+  S.div("", [
+    S.h1({j|style="color: red;"|j}, S.text("JUDUL TITLE")),
+    S.p("", S.text("deskripsi"))
+  ]);
+```
+
+complex example ( return as html file) :
+```re
+module S = Silica.HTML;
+
 // -- DATA
 let animals = ["macan", "hiu", "kura-kura", "panda"];
 let bodyStyle = {|style="margin: 0; padding: 0; box-sizing: border-box;"|};
@@ -64,4 +75,4 @@ Node_fs.writeFileSync("result.html", main, `utf8);
 
 ## TODO:
 - [ ] a11y support
-- [ ] single tag
+- [ ] single tag 
