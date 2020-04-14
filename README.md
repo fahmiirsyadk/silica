@@ -12,6 +12,7 @@ execute the file with node `node file.bs.js`
 basic example :
 ```reason
 module S = Silica.HTML;
+module P = Silica.Property;
 
 let main = 
   S.div([], [
@@ -22,9 +23,6 @@ let main =
 
 complex example ( return as html file) :
 ```reason
-module S = Silica.HTML;
-
-// -- DATA
 module S = Silica.HTML;
 module P = Silica.Property;
 
