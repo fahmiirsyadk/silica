@@ -10,67 +10,57 @@ execute the file with node `node file.bs.js`
 
 ## Example
 basic example :
-```re
+```reason
 module S = Silica.HTML;
 
 let main = 
-  S.div("", [
-    S.h1({j|style="color: red;"|j}, S.text("JUDUL TITLE")),
-    S.p("", S.text("deskripsi"))
+  S.div([], [
+    S.h1([P.style("color: red;")], S.text("JUDUL TITLE")),
+    S.p([], S.text("deskripsi"))
   ]);
 ```
 
 complex example ( return as html file) :
-```re
+```reason
 module S = Silica.HTML;
 
 // -- DATA
+module S = Silica.HTML;
+module P = Silica.Property;
+
+// DATA
 let animals = ["macan", "hiu", "kura-kura", "panda"];
-let bodyStyle = {|style="margin: 0; padding: 0; box-sizing: border-box;"|};
-let articleStyle = {|style="background: pink; color: white;"|};
 
-// -- LOGIC
-let listAnimal = animals |> List.map(animal => S.li("", S.text(animal)));
-let oper = 2 + 4;
-let day =
-  switch (Js.Date.make()->Js.Date.getDay) {
-  | 1.0 => "Senin"
-  | 2.0 => "Selasa"
-  | 3.0 => "Rabu"
-  | 4.0 => "Kamis"
-  | 5.0 => "Jumat"
-  | 6.0 => "Sabtu"
-  | 7.0 => "Minggu"
-  | _ => "Error date"
-  };
+// LOGIC
+let listAnimal = animals |> List.map(animal => S.li([], S.text(animal)));
 
-// -- HEAD
-let head = S.head("", [S.title("", S.text("Aerogel SSG"))]);
-
-// -- BODY
-let body =
-  S.body(
-    bodyStyle,
+let main =
+  S.div([P.style("padding: 20px; background-color: pink;")],
     [
-      S.h1("", S.text("THIS IS THE AEROGEL SSG")),
-      S.h2("", S.text({j|Selamat hari $day|j})),
-      S.article(
-        articleStyle,
-        [
-          "note: this is allowed", // passing raw string
-          listAnimal |> S.ol({|style="padding: 20px 0;"|}),
-        ],
-      ),
-    ],
-  );
+      S.h1([], S.text("FORM JUDUL")),
+      S.label([ P.for_("newslatter-email-input")], S.text("Email")),
+      S.input(
+        [ P.type_("email") // TODO VARIANT
+        , P.id("newslatter-email")
+        , P.name("email")
+        , P.placeholder("you@example.com")
+        , P.required(true) ]
+        , [])
+        , S.ol([], listAnimal)
+    ]);
 
-// -- Footer
-let footer = S.footer("", [S.p("", S.text({js|Made with ❤️|js}))]);
+let head = 
+  S.head([], [
+    S.title([], S.text("judul_browser"))
+    , S.meta([ P.charset("utf-8")], [])
+    , S.meta([ 
+      P.property("og:title")
+      , P.content("Silica test")],[])
+  ]);
 
-// -- MAIN
-let main = [head, body, footer] |> S.html("");
+let body = [main] |> S.body([P.style("margin: 0; padding: 0;")]);
 
-Node_fs.writeFileSync("result.html", main, `utf8);
+[head, body] |> S.html([]) |> Node_fs.writeFileSync("result.html", _, `utf8);
 ```
 
 ## TODO:
